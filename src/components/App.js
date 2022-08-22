@@ -1,5 +1,6 @@
 import { CurrentUserContext } from 'contexts/CurrentUserContext';
 import { useEffect, useState } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import api from 'utills/api';
 import AddPlacePopup from './AddPlacePopup';
 import EditAvatarPopup from './EditAvatarPopup';
@@ -8,20 +9,23 @@ import ErrorPopup from './ErrorPopup';
 import Footer from './Footer';
 import Header from './Header';
 import ImagePopup from './ImagePopup';
+import InfoTooltip from './InfoTooltip';
+import Login from './Login';
 import Main from './Main';
 import RemoveCardPopup from './RemoveCardPopup';
 
 function App() {
+  const [isInfoTooltipOpened, setIsInfoTooltipOpened] = useState(false);
   const [isEditProfilePopupOpened, setIsEditProfilePopupOpened] = useState(false);
-  const [isLoadingProfile, setIsLoadingProfile] = useState(false)
+  const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [isLoadingAddPlace, setIsLoadingAddPlace] = useState(false)
+  const [isLoadingAddPlace, setIsLoadingAddPlace] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [isLoadingAvatar, setIsLoadingAvatar] = useState(false)
+  const [isLoadingAvatar, setIsLoadingAvatar] = useState(false);
   const [isImagePopupOpened, setIsImagePopupOpened] = useState(false);
   const [isRemoveCardPopupOpened, setIsRemoveCardPopupOpened] = useState(false);
-  const [isLoadingRemoveCard, setIsLoadingRemoveCard] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
+  const [isLoadingRemoveCard, setIsLoadingRemoveCard] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState({});
   const [cardToDelete, setCardTodelete] = useState({});
@@ -53,6 +57,7 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsImagePopupOpened(false);
     setIsRemoveCardPopupOpened(false);
+    setIsInfoTooltipOpened(false);
     if (selectedCard.link) {
       setTimeout(() => setSelectedCard({}), 500); //не убираю картинку пока показывается анимация закрытия попапа
     }
@@ -86,8 +91,9 @@ function App() {
   };
 
   const handleUpdateUser = (userData) => {
-    setIsLoadingProfile(true)
-    api.setUserInfo(userData)
+    setIsLoadingProfile(true);
+    api
+      .setUserInfo(userData)
       .then((newData) => {
         setCurrentUser(newData);
         closeAllPopups();
@@ -97,36 +103,44 @@ function App() {
   };
 
   const handleUpdateAvatar = (avatarData) => {
-    setIsLoadingAvatar(true)
-    api.setAvatar(avatarData).then((newData) => {
-      setCurrentUser(newData);
-      closeAllPopups();
-    })
+    setIsLoadingAvatar(true);
+    api
+      .setAvatar(avatarData)
+      .then((newData) => {
+        setCurrentUser(newData);
+        closeAllPopups();
+      })
       .finally(() => setIsLoadingAvatar(false))
       .catch(({ message }) => setErrorMessage(message));
   };
 
   const handleAddPlaceSubmit = (cardData) => {
-    setIsLoadingAddPlace(true)
-    api.addCard(cardData)
+    setIsLoadingAddPlace(true);
+    api
+      .addCard(cardData)
       .then((newCard) => {
         setCards((cards) => [newCard, ...cards]);
         closeAllPopups();
       })
       .finally(() => setIsLoadingAddPlace(false))
       .catch(({ message }) => setErrorMessage(message));
-
   };
 
   const handleConfirmRemove = () => {
-    setIsLoadingRemoveCard(true)
-    api.deleteCard(cardToDelete._id)
+    setIsLoadingRemoveCard(true);
+    api
+      .deleteCard(cardToDelete._id)
       .then(() => {
-        setCards((cards) => cards.filter((card) => card._id !== cardToDelete._id))
+        setCards((cards) => cards.filter((card) => card._id !== cardToDelete._id));
         closeAllPopups();
       })
       .finally(() => setIsLoadingRemoveCard(false))
       .catch(({ message }) => setErrorMessage(message));
+  };
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    setIsInfoTooltipOpened(true);
   };
 
   useEffect(() => {
@@ -163,42 +177,52 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <div className="loading-screen loading-screen_disabled"></div>
+        {/* <div className="loading-screen loading-screen_disabled"></div> */}
         <Header />
-        <Main
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-          cards={cards}
-        />
-        <Footer />
+        <Switch>
+          <Route exact path="/">
+            <Login onSubmit={handleLoginSubmit} />
+          </Route>
+          <Route path="/main">
+            <Main
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={handleCardClick}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
+              cards={cards}
+            />
+            <Footer />
+          </Route>
+        </Switch>
         <EditProfilePopup
           isOpen={isEditProfilePopupOpened}
           isLoading={isLoadingProfile}
           onClose={handleClickOnPopup}
-          onUpdateUser={handleUpdateUser} />
+          onUpdateUser={handleUpdateUser}
+        />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           isLoading={isLoadingAvatar}
           onClose={handleClickOnPopup}
-          onUpdateAvatar={handleUpdateAvatar} />
+          onUpdateAvatar={handleUpdateAvatar}
+        />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           isLoading={isLoadingAddPlace}
           onClose={handleClickOnPopup}
-          onAddPlace={handleAddPlaceSubmit} />
-        <ImagePopup isOpen={isImagePopupOpened}
-          card={selectedCard}
-          onClose={handleClickOnPopup} />
+          onAddPlace={handleAddPlaceSubmit}
+        />
+        <ImagePopup isOpen={isImagePopupOpened} card={selectedCard} onClose={handleClickOnPopup} />
         <RemoveCardPopup
           isOpen={isRemoveCardPopupOpened}
           isLoading={isLoadingRemoveCard}
           onClose={handleClickOnPopup}
-          onConfirmRemove={handleConfirmRemove} />
+          onConfirmRemove={handleConfirmRemove}
+        />
         <ErrorPopup errorMessage={errorMessage} onClose={handleCloseErrorMessage} />
+        <InfoTooltip isOpen={isInfoTooltipOpened} onClose={handleClickOnPopup} />
       </div>
     </CurrentUserContext.Provider>
   );
