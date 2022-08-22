@@ -1,0 +1,14 @@
+.popup__container {
+  max-width: 430px;
+  width: calc(100% - 96px);
+  background-color: #fff;
+  border-radius: 10px;
+  z-index: 10;
+  position: relative; /* для позиционирование кнопки закрытия */
+}
+
+@media screen and (max-width: 425px) {
+  .popup__container {
+    width: calc(100% - 38px);
+  }
+}

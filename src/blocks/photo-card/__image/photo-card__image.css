@@ -1,0 +1,13 @@
+.photo-card__image {
+  height: 282px;
+  width: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  order: -1;
+  cursor: pointer;
+  transition: transform 0.5s ease;
+}
+
+.photo-card__image:hover {
+  transform: scale(1.03);
+}

@@ -1,0 +1,18 @@
+.loading-screen {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  content: '';
+  background: url(../../images/loader.svg) center/100px no-repeat, #000;
+  z-index: 100;
+  color: #fff;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.25;
+  text-align: center;
+  padding: 20% 20%;
+
+}

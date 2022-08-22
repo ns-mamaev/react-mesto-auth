@@ -1,0 +1,9 @@
+.page {
+  background-color: #000;
+  width: 100%;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
