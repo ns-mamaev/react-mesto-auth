@@ -1,20 +1,24 @@
 import { CurrentUserContext } from 'contexts/CurrentUserContext';
 import { useEffect, useState } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import api from 'utills/api';
 import AddPlacePopup from './AddPlacePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import EditProfilePopup from './EditProfilePopup';
 import ErrorPopup from './ErrorPopup';
-import Footer from './Footer';
 import Header from './Header';
 import ImagePopup from './ImagePopup';
 import InfoTooltip from './InfoTooltip';
 import Login from './Login';
 import Main from './Main';
+import ProtectedRoute from './ProtectedRoute';
+import Register from './Register';
 import RemoveCardPopup from './RemoveCardPopup';
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const history = useHistory();
+
   const [isInfoTooltipOpened, setIsInfoTooltipOpened] = useState(false);
   const [isEditProfilePopupOpened, setIsEditProfilePopupOpened] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
@@ -138,9 +142,10 @@ function App() {
       .catch(({ message }) => setErrorMessage(message));
   };
 
-  const handleLoginSubmit = (e) => {
-    e.preventDefault();
-    setIsInfoTooltipOpened(true);
+  //*******************************************
+  const handleLogin = () => {
+    setLoggedIn(true);
+    history.push('./');
   };
 
   useEffect(() => {
@@ -180,21 +185,24 @@ function App() {
         {/* <div className="loading-screen loading-screen_disabled"></div> */}
         <Header />
         <Switch>
-          <Route exact path="/">
-            <Login onSubmit={handleLoginSubmit} />
+          <Route path="/sign-in">
+            <Login onLogin={handleLogin} />
           </Route>
-          <Route path="/main">
-            <Main
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
-              cards={cards}
-            />
-            <Footer />
+          <Route path="/sign-up">
+            <Register />
           </Route>
+          <ProtectedRoute
+            path="/"
+            loggedIn={loggedIn}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+            cards={cards}
+            component={Main}
+          />
         </Switch>
         <EditProfilePopup
           isOpen={isEditProfilePopupOpened}
