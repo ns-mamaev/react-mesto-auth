@@ -14,7 +14,10 @@ function Login({ onLogin }) {
     const { email, password } = values;
     auth
       .login(email, password)
-      .then(onLogin)
+      .then(() => {
+        setValues({ email: '', password: '' });
+        onLogin();
+      })
       .catch((err) => console.log(err));
   };
 

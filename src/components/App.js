@@ -2,6 +2,7 @@ import { CurrentUserContext } from 'contexts/CurrentUserContext';
 import { useEffect, useState } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import api from 'utills/api';
+import * as auth from '../utills/auth/mestoAuth';
 import AddPlacePopup from './AddPlacePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import EditProfilePopup from './EditProfilePopup';
@@ -147,6 +148,22 @@ function App() {
     setLoggedIn(true);
     history.push('./');
   };
+
+  //**************************
+  const tokenCheck = async () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const res = await auth.getContent(token);
+      if (res) {
+        setLoggedIn(true);
+        history.push('./');
+      }
+    }
+  };
+
+  useEffect(() => {
+    tokenCheck();
+  }, []);
 
   useEffect(() => {
     api

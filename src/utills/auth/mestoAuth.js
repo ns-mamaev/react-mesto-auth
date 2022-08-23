@@ -24,12 +24,29 @@ const login = async (email, password) => {
     body: JSON.stringify({ email, password }),
   });
   if (res.ok) {
-    const { token } = await res.json();
-    localStorage.setItem('token', token);
-  } else {
-    const err = await res.json();
-    return Promise.reject(err);
+    const data = await res.json();
+    if (data.token) {
+      localStorage.setItem('token', data.token);
+    }
+    return;
   }
+  const err = await res.json();
+  return Promise.reject(err);
 };
 
-export { register, login };
+const getContent = async (token) => {
+  const res = await fetch(`${BASE_URL}/users/me`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (res.ok) {
+    return await res.json();
+  }
+  const err = await res.json();
+  return Promise.reject(err);
+};
+
+export { register, login, getContent };
