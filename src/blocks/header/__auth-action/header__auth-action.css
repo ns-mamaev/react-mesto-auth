@@ -1,0 +1,18 @@
+.header__auth-action {
+  border: none;
+  padding: 0;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  color: #A9A9A9;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.23;
+  text-align: right;
+  transition: opacity .3s ease;
+}
+
+.header__auth-action:hover {
+  opacity: .6;
+}

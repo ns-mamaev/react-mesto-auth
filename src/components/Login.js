@@ -16,7 +16,7 @@ function Login({ onLogin }) {
       .login(email, password)
       .then(() => {
         setValues({ email: '', password: '' });
-        onLogin();
+        onLogin(email);
       })
       .catch((err) => console.log(err));
   };
