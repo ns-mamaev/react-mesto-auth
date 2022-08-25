@@ -8,10 +8,11 @@
   border-bottom: 1px solid rgba(84, 84, 84, .7);
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 768px) {
   .header {
-    padding: 28px 0 30.6px;
+    padding: 0;
     width: 100%;
+    flex-direction: column;
   }
 }
 

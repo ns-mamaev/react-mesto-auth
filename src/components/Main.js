@@ -6,7 +6,7 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike
   const currentUser = useContext(CurrentUserContext);
 
   return (
-    <main className="content">
+    <>
       <section className="profile">
         <button className="profile__avatar-wrapper" onClick={onEditAvatar} type="button">
           <img src={currentUser.avatar} alt="Аватар профиля" className="profile__avatar" />
@@ -31,7 +31,7 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike
           ))}
         </ul>
       </section>
-    </main>
+    </>
   );
 }
 

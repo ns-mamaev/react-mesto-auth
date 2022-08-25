@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import * as auth from '../utills/auth/mestoAuth';
 
 function Register() {
@@ -38,7 +38,7 @@ function Register() {
           onChange={onChange}
           value={values.email}
         />
-        <span className="form__error">Текст ошибки</span>
+        <span className="form__error form__error_visible">Текст ошибки</span>
       </label>
       <label className="form__field">
         <input
@@ -52,11 +52,14 @@ function Register() {
           onChange={onChange}
           value={values.password}
         />
-        <span className="form__error">Текст ошибки</span>
+        <span className="form__error form__error_visible">Текст ошибки</span>
       </label>
       <button type="submit" name="login" className="form__button form__button_place_start-screen">
         Зарегистрироваться
       </button>
+      <Link className="form__bottom-link" to="/sign-in">
+        Уже зарегистированы? Войти
+      </Link>
     </form>
   );
 }

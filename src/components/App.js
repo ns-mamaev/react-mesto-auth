@@ -18,7 +18,7 @@ import Register from './Register';
 import RemoveCardPopup from './RemoveCardPopup';
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
   const history = useHistory();
   const [userProfile, setUserProfile] = useState('');
 
@@ -213,26 +213,28 @@ function App() {
         <div className="page">
           {/* <div className="loading-screen loading-screen_disabled"></div> */}
           <Header onSignOut={signOut} userProfile={userProfile} />
-          <Switch>
-            <Route path="/sign-in">
-              <Login onLogin={handleLogin} />
-            </Route>
-            <Route path="/sign-up">
-              <Register />
-            </Route>
-            <ProtectedRoute
-              path="/"
-              loggedIn={loggedIn}
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
-              cards={cards}
-              component={Main}
-            />
-          </Switch>
+          <main className="content">
+            <Switch>
+              <Route path="/sign-in">
+                <Login onLogin={handleLogin} />
+              </Route>
+              <Route path="/sign-up">
+                <Register />
+              </Route>
+              <ProtectedRoute
+                path="/"
+                loggedIn={loggedIn}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleEditAvatarClick}
+                onCardClick={handleCardClick}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+                cards={cards}
+                component={Main}
+              />
+            </Switch>
+          </main>
           <EditProfilePopup
             isOpen={isEditProfilePopupOpened}
             isLoading={isLoadingProfile}

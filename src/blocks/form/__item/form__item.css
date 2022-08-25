@@ -12,3 +12,7 @@
   line-height: 1.21;
   color: #000;
 }
+
+.form__item:focus {
+  outline: none;
+}

@@ -1,5 +1,6 @@
 .form_place_start-screen {
   padding: 60px 0 0;
+  margin: 0 auto;
   max-width: 358px;
   width: calc(100% - 96px);
 }
