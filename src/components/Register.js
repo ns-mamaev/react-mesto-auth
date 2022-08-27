@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import * as auth from '../utills/auth/mestoAuth';
+import { Link } from 'react-router-dom';
 
-function Register() {
+function Register({ onRegister }) {
   const [values, setValues] = useState({ email: '', password: '' });
-  const history = useHistory();
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -13,9 +11,7 @@ function Register() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const { email, password } = values;
-    auth.register(email, password);
-    history.push('./signin');
+    onRegister(values);
   };
 
   return (

@@ -22,7 +22,9 @@ function App() {
   const history = useHistory();
   const [userProfile, setUserProfile] = useState('');
 
-  const [isInfoTooltipOpened, setIsInfoTooltipOpened] = useState(true);
+  const [isInfoTooltipOpened, setIsInfoTooltipOpened] = useState(false);
+  const [infoTooltipMessage, setInfoTooltipMessage] = useState('');
+
   const [isEditProfilePopupOpened, setIsEditProfilePopupOpened] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -165,6 +167,20 @@ function App() {
     }
   };
 
+  //===================================
+
+  const onRegister = ({ email, password }) => {
+    auth
+      .register(email, password)
+      .then((res) => {
+        setUserProfile(res.data.email);
+        setLoggedIn(true);
+        history.push('./');
+      })
+      .catch(({ error }) => setInfoTooltipMessage(error))
+      .finally(() => setIsInfoTooltipOpened(true));
+  };
+
   const signOut = () => {
     localStorage.removeItem('token');
     history.push('./sign-in');
@@ -219,7 +235,7 @@ function App() {
                 <Login onLogin={handleLogin} />
               </Route>
               <Route path="/sign-up">
-                <Register />
+                <Register onRegister={onRegister} />
               </Route>
               <ProtectedRoute
                 path="/"
@@ -261,7 +277,12 @@ function App() {
             onConfirmRemove={handleConfirmRemove}
           />
           <ErrorPopup errorMessage={errorMessage} onClose={handleCloseErrorMessage} />
-          <InfoTooltip isOpen={isInfoTooltipOpened} onClose={handleClickOnPopup} />
+          <InfoTooltip
+            isOpen={isInfoTooltipOpened}
+            onClose={handleClickOnPopup}
+            message={infoTooltipMessage}
+            isError={!loggedIn}
+          />
         </div>
       </CurrentUserContext.Provider>
     </LoginStatusContext.Provider>
