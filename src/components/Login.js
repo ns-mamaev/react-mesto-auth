@@ -1,24 +1,15 @@
-import { useState } from 'react';
-import * as auth from '../utills/auth/mestoAuth';
+import useFormWithValidation from 'utills/hooks/useFormWithValidation';
 
-function Login({ onLogin }) {
-  const [values, setValues] = useState({ email: '', password: '' });
+function Login({ onLogin, isLoading }) {
+  const { values, isErrors, errorMessages, isFormNotValid, onChange } = useFormWithValidation(['email', 'password']);
 
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setValues((values) => ({ ...values, [name]: value }));
-  };
+  const buttonText = isLoading ? 'Выполнение...' : 'Войти';
+  const isButtonDisabled = isLoading || isFormNotValid;
+  const buttonClass = `form__button form__button_place_auth-screen ${isButtonDisabled ? 'form__button_disabled' : ''}`;
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const { email, password } = values;
-    auth
-      .login(email, password)
-      .then(() => {
-        setValues({ email: '', password: '' });
-        onLogin(email);
-      })
-      .catch((err) => console.log(err));
+    onLogin(values);
   };
 
   return (
@@ -33,7 +24,7 @@ function Login({ onLogin }) {
         <label className="form__field">
           <input
             type="email"
-            className="form__item form__item_content_profile-name form__item_place_auth-screen"
+            className={`form__item form__item_place_auth-screen ${isErrors?.email ? 'form__item_type_error' : ''} `}
             name="email"
             placeholder="Email"
             required
@@ -42,12 +33,12 @@ function Login({ onLogin }) {
             onChange={onChange}
             value={values.email}
           />
-          <span className="form__error">Текст ошибки</span>
+          <span className={`form__error ${isErrors?.email ? 'form__error_visible' : ''}`}>{errorMessages?.email}</span>
         </label>
         <label className="form__field">
           <input
             type="password"
-            className="form__item form__item_content_profile-name form__item_place_auth-screen"
+            className={`form__item form__item_place_auth-screen ${isErrors?.password ? 'form__item_type_error' : ''} `}
             name="password"
             placeholder="Пароль"
             required
@@ -56,10 +47,12 @@ function Login({ onLogin }) {
             onChange={onChange}
             value={values.password}
           />
-          <span className="form__error">Текст ошибки</span>
+          <span className={`form__error ${isErrors?.password ? 'form__error_visible' : ''}`}>
+            {errorMessages?.password}
+          </span>
         </label>
-        <button type="submit" name="login" className="form__button form__button_place_auth-screen">
-          Войти
+        <button type="submit" name="login" className={buttonClass} disabled={isButtonDisabled}>
+          {buttonText}
         </button>
       </form>
     </section>

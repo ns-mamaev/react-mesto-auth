@@ -58,7 +58,6 @@
 @import url(./blocks/form/__error/_visible/form__error_visible.css);
 @import url(./blocks/form/__button/form__button.css);
 @import url(./blocks/form/__button/_place/form__button_place_auth-screen.css);
-@import url(./blocks/form/__button/_disabled/form__button_disabled.css);
 @import url(./blocks/form/__bottom-link/form__bottom-link.css);
 
 @import url(./blocks/popup/__zoomed-image/popup__zoomed-image.css);

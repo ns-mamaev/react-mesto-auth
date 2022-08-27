@@ -24,6 +24,8 @@ function App() {
 
   const [isInfoTooltipOpened, setIsInfoTooltipOpened] = useState(false);
   const [infoTooltipMessage, setInfoTooltipMessage] = useState('');
+  const [isRegisterLoading, setIsRegisterLoading] = useState(false);
+  const [isLoginLoading, setIsLoginLoading] = useState(false);
 
   const [isEditProfilePopupOpened, setIsEditProfilePopupOpened] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
@@ -148,13 +150,7 @@ function App() {
   };
 
   //*******************************************
-  const handleLogin = (profile) => {
-    setLoggedIn(true);
-    setUserProfile(profile);
-    history.push('./');
-  };
 
-  //**************************
   const tokenCheck = async () => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -167,9 +163,8 @@ function App() {
     }
   };
 
-  //===================================
-
   const onRegister = ({ email, password }) => {
+    setIsRegisterLoading(true);
     auth
       .register(email, password)
       .then((res) => {
@@ -178,10 +173,31 @@ function App() {
         history.push('./');
       })
       .catch(({ error }) => setInfoTooltipMessage(error))
-      .finally(() => setIsInfoTooltipOpened(true));
+      .finally(() => {
+        setIsRegisterLoading(false);
+        setIsInfoTooltipOpened(true);
+      });
   };
 
-  const signOut = () => {
+  const onLogin = ({ email, password }) => {
+    setIsLoginLoading(true);
+    auth
+      .login(email, password)
+      .then(() => {
+        setUserProfile(email);
+        setLoggedIn(true);
+        history.push('./');
+      })
+      .catch(({ message }) => {
+        setInfoTooltipMessage(message);
+        setIsInfoTooltipOpened(true);
+      })
+      .finally(() => {
+        setIsLoginLoading(false);
+      });
+  };
+
+  const onSignOut = () => {
     localStorage.removeItem('token');
     history.push('./sign-in');
     setLoggedIn(false);
@@ -228,14 +244,14 @@ function App() {
       <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
           {/* <div className="loading-screen loading-screen_disabled"></div> */}
-          <Header onSignOut={signOut} userProfile={userProfile} />
+          <Header onSignOut={onSignOut} userProfile={userProfile} />
           <main className="main">
             <Switch>
               <Route path="/sign-in">
-                <Login onLogin={handleLogin} />
+                <Login onLogin={onLogin} isLoading={isLoginLoading} />
               </Route>
               <Route path="/sign-up">
-                <Register onRegister={onRegister} />
+                <Register onRegister={onRegister} isLoading={isRegisterLoading} />
               </Route>
               <ProtectedRoute
                 path="/"

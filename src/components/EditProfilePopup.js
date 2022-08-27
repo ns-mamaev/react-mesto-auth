@@ -37,7 +37,7 @@ function EditProfilePopup({ isOpen, isLoading, onClose, onUpdateUser }) {
       <label className="form__field">
         <input
           type="text"
-          className={`form__item form__item_content_profile-name ${isErrors?.name ? 'form__item_type_error' : ''} `}
+          className={`form__item ${isErrors?.name ? 'form__item_type_error' : ''} `}
           name="name"
           placeholder="Введите ваше имя"
           required
@@ -51,7 +51,7 @@ function EditProfilePopup({ isOpen, isLoading, onClose, onUpdateUser }) {
       <label className="form__field">
         <input
           type="text"
-          className={`form__item form__item_content_profile-name ${isErrors?.about ? 'form__item_type_error' : ''} `}
+          className={`form__item ${isErrors?.about ? 'form__item_type_error' : ''} `}
           name="about"
           placeholder="Ваш род деятельности?"
           required

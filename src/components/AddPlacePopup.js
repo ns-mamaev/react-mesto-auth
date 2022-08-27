@@ -8,15 +8,15 @@ function AddPlacePopup({ isOpen, isLoading, onClose, onAddPlace }) {
 
   useEffect(() => {
     if (isOpen) {
-      resetValidation()
-      setValues({ name: '', link: '' })
+      resetValidation();
+      setValues({ name: '', link: '' });
     }
   }, [isOpen]);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    onAddPlace(values)
-  }
+    onAddPlace(values);
+  };
 
   return (
     <PopupWithForm
@@ -32,7 +32,7 @@ function AddPlacePopup({ isOpen, isLoading, onClose, onAddPlace }) {
       <label className="form__field">
         <input
           type="text"
-          className={`form__item form__item_content_profile-name ${isErrors?.name ? 'form__item_type_error' : ''} `}
+          className={`form__item ${isErrors?.name ? 'form__item_type_error' : ''} `}
           name="name"
           placeholder="Название"
           required
@@ -46,7 +46,7 @@ function AddPlacePopup({ isOpen, isLoading, onClose, onAddPlace }) {
       <label className="form__field">
         <input
           type="url"
-          className={`form__item form__item_content_profile-name ${isErrors?.link ? 'form__item_type_error' : ''} `}
+          className={`form__item ${isErrors?.link ? 'form__item_type_error' : ''} `}
           name="link"
           placeholder="Ссылка на картинку"
           required
