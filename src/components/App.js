@@ -22,7 +22,7 @@ function App() {
   const history = useHistory();
   const [userProfile, setUserProfile] = useState('');
 
-  const [isInfoTooltipOpened, setIsInfoTooltipOpened] = useState(false);
+  const [isInfoTooltipOpened, setIsInfoTooltipOpened] = useState(true);
   const [isEditProfilePopupOpened, setIsEditProfilePopupOpened] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);

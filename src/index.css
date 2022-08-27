@@ -65,4 +65,5 @@
 @import url(./blocks/popup/__zomed-image-caption/popup__zoomed-image-caption.css);
 @import url(./blocks/popup/__error-message/popup__error-message.css);
 
-@import url(./blocks/popup/__status-img/popup__status-img.css);
+@import url(./blocks/popup/__tooltip-img/popup__tooltip-img.css);
+@import url(./blocks/popup/__tooltip-message/popup__tooltip-message.css);
