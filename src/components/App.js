@@ -156,7 +156,7 @@ function App() {
       if (res.data) {
         setLoggedIn(true);
         setUserProfile(res.data.email);
-        history.push('./');
+        history.push('/');
       }
     }
     setIsPageLoading(false);
@@ -169,7 +169,7 @@ function App() {
       .then((res) => {
         setUserProfile(res.data.email);
         setLoggedIn(true);
-        history.push('./');
+        history.push('/');
       })
       .catch(({ error }) => setInfoTooltipMessage(error))
       .finally(() => {
@@ -185,7 +185,7 @@ function App() {
       .then(() => {
         setUserProfile(email);
         setLoggedIn(true);
-        history.push('./');
+        history.push('/');
         setIsPageLoading(true);
       })
       .catch(({ message }) => {
@@ -199,7 +199,7 @@ function App() {
 
   const onSignOut = () => {
     localStorage.removeItem('token');
-    history.push('./sign-in');
+    history.push('/sign-in');
     setLoggedIn(false);
     setUserProfile('');
   };
