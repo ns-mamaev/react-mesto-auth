@@ -1,5 +1,7 @@
 .popup__container {
+  box-sizing: border-box;
   max-width: 430px;
+  padding: 34px 36px 37px;
   width: calc(100% - 96px);
   background-color: #fff;
   border-radius: 10px;
@@ -10,5 +12,6 @@
 @media screen and (max-width: 425px) {
   .popup__container {
     width: calc(100% - 38px);
+    padding: 25px 22px;
   }
 }

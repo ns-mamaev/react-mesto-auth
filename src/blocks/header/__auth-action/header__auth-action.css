@@ -1,9 +1,6 @@
 .header__auth-action {
-  border: none;
-  padding: 0;
   text-decoration: none;
   cursor: pointer;
-  background: none;
   color: #fff;
   font-family: 'Inter', Arial, Helvetica, sans-serif;
   font-weight: 400;
@@ -15,4 +12,11 @@
 
 .header__auth-action:hover {
   opacity: .6;
+}
+
+@media screen and (max-width: 425px) {
+  .header__auth-action {
+    font-size: 14px;
+    line-height: 17px;
+  }
 }

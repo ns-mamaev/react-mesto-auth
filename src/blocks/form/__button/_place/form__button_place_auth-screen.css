@@ -1,0 +1,19 @@
+.form__button_place_auth-screen {
+  background-color: #fff;
+  color: #000;
+  margin-top: 186px;
+}
+
+.form__button_place_auth-screen:hover {
+  opacity: .85;
+}
+
+@media screen and (max-width: 425px) {
+  .form__button_place_auth-screen {
+    font-size: 16px;
+    line-height: 19px;
+    padding: 14px 0 14px;
+    margin-top: 141px;
+  }
+
+}

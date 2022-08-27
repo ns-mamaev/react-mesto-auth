@@ -1,11 +1,15 @@
 .header__burger-button {
   display: none;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.2s ease;
   cursor: pointer;
 }
 
 .header__burger-button:hover {
   opacity: .6;
+}
+
+.header__burger-button:active {
+  transform: scale(1.1);
 }
 
 @media screen and (max-width: 768px) {

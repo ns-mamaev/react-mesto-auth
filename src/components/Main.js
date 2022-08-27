@@ -7,7 +7,7 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike
 
   return (
     <>
-      <section className="profile">
+      <section className="profile content">
         <button className="profile__avatar-wrapper" onClick={onEditAvatar} type="button">
           <img src={currentUser.avatar} alt="Аватар профиля" className="profile__avatar" />
         </button>
@@ -18,7 +18,7 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike
         </div>
         <button type="button" className="profile__add-button" aria-label="add card" onClick={onAddPlace} />
       </section>
-      <section className="elements">
+      <section className="elements content">
         <ul className="elements__list">
           {cards.map((card) => (
             <Card

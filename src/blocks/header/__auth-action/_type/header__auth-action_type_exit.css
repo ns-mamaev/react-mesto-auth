@@ -1,0 +1,13 @@
+.header__auth-action_type_exit {
+  border: none;
+  padding: 0;
+  background: none;
+  color: #a9a9a9;
+}
+
+@media screen and (max-width: 425px) {
+  .header__auth-action_type_exit {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}

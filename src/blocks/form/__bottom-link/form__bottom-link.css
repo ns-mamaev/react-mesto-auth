@@ -13,3 +13,9 @@
 .form__bottom-link:hover {
   opacity: 0.6;
 }
+
+@media screen and (max-width: 425px) {
+  .form__bottom-link {
+    margin: 20px 0 0;
+  }
+}

@@ -18,7 +18,7 @@ import Register from './Register';
 import RemoveCardPopup from './RemoveCardPopup';
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const history = useHistory();
   const [userProfile, setUserProfile] = useState('');
 
@@ -213,7 +213,7 @@ function App() {
         <div className="page">
           {/* <div className="loading-screen loading-screen_disabled"></div> */}
           <Header onSignOut={signOut} userProfile={userProfile} />
-          <main className="content">
+          <main className="main">
             <Switch>
               <Route path="/sign-in">
                 <Login onLogin={handleLogin} />

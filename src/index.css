@@ -7,13 +7,17 @@
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__auth/header__auth.css);
 @import url(./blocks/header/__auth/_hidden/header__auth_hidden.css);
-@import url(./blocks/header/__mobile-container/header__mobile-container.css);
+@import url(./blocks/header/__container/header__container.css);
 @import url(./blocks/header/__auth-action/header__auth-action.css);
+@import url(./blocks/header/__auth-action/_type/header__auth-action_type_exit.css);
 @import url(./blocks/header/__auth-profile/header__auth-profile.css);
 @import url(./blocks/header/__logo/header__logo.css);
 @import url(./blocks/header/__burger-button/header__burger-button.css);
 
+@import url(./blocks/auth-screen/auth-screen.css);
+
 @import url(./blocks/content/content.css);
+@import url(./blocks/main/main.css);
 @import url(./blocks/profile/profile.css);
 @import url(./blocks/profile/__info/profile__info.css);
 @import url(./blocks/profile/__name/profile__name.css);
@@ -43,17 +47,17 @@
 @import url(./blocks/popup/__close-button/popup__close-button.css);
 
 @import url(./blocks/form/form.css);
-@import url(./blocks/form/_place/form_place_start-screen.css);
+@import url(./blocks/form/_place/form_place_auth-screen.css);
 @import url(./blocks/form/__field/form__field.css);
 @import url(./blocks/form/__title/form__title.css);
-@import url(./blocks/form/__title/_place/form__title_place_start-screen.css);
+@import url(./blocks/form/__title/_place/form__title_place_auth-screen.css);
 @import url(./blocks/form/__item/form__item.css);
-@import url(./blocks/form/__item/_place/form__item_place_start-screen.css);
+@import url(./blocks/form/__item/_place/form__item_place_auth-screen.css);
 @import url(./blocks/form/__item/_type/form__item_type_error.css);
 @import url(./blocks/form/__error/form__error.css);
 @import url(./blocks/form/__error/_visible/form__error_visible.css);
 @import url(./blocks/form/__button/form__button.css);
-@import url(./blocks/form/__button/_place/form__button_place_start-screen.css);
+@import url(./blocks/form/__button/_place/form__button_place_auth-screen.css);
 @import url(./blocks/form/__button/_disabled/form__button_disabled.css);
 @import url(./blocks/form/__bottom-link/form__bottom-link.css);
 
