@@ -41,7 +41,7 @@ class Api {
   }
 
   setAvatar(data) {
-    return this._changeData(data, '/users/me/avatarы');
+    return this._changeData(data, '/users/me/avatar');
   }
 
   addCard(data) {

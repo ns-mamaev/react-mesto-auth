@@ -9,12 +9,13 @@ function EditProfilePopup({ isOpen, isLoading, onClose, onUpdateUser }) {
     useFormWithValidation(['name', 'about']);
 
   React.useEffect(() => {
-    // if (isOpen && currentUser.name && currentUser.about) {
-    //   // меняю стейт только когда данные пользователя уже пришли с сервера
-    setValues({
-      name: currentUser.name,
-      about: currentUser.about,
-    });
+    if (isOpen && currentUser.name && currentUser.about) {
+      // меняю стейт только когда данные пользователя уже пришли с сервера
+      setValues({
+        name: currentUser.name,
+        about: currentUser.about,
+      });
+    }
     resetValidation();
   }, [currentUser, isOpen]);
 

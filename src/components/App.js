@@ -8,6 +8,7 @@ import AddPlacePopup from './AddPlacePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import EditProfilePopup from './EditProfilePopup';
 import ErrorPopup from './ErrorPopup';
+import Footer from './Footer';
 import Header from './Header';
 import ImagePopup from './ImagePopup';
 import InfoTooltip from './InfoTooltip';
@@ -21,6 +22,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const history = useHistory();
   const [userProfile, setUserProfile] = useState('');
+  const [isPageLoading, setIsPageLoading] = useState(true);
 
   const [isInfoTooltipOpened, setIsInfoTooltipOpened] = useState(false);
   const [infoTooltipMessage, setInfoTooltipMessage] = useState('');
@@ -149,8 +151,6 @@ function App() {
       .catch(({ message }) => setErrorMessage(message));
   };
 
-  //*******************************************
-
   const tokenCheck = async () => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -161,6 +161,7 @@ function App() {
         history.push('./');
       }
     }
+    setIsPageLoading(false);
   };
 
   const onRegister = ({ email, password }) => {
@@ -187,6 +188,7 @@ function App() {
         setUserProfile(email);
         setLoggedIn(true);
         history.push('./');
+        setIsPageLoading(true);
       })
       .catch(({ message }) => {
         setInfoTooltipMessage(message);
@@ -208,23 +210,24 @@ function App() {
     tokenCheck();
   }, []);
 
-  useEffect(() => {
-    api
-      .getUserInfo()
-      .then((user) => {
-        setCurrentUser(user);
-      })
-      .catch(({ message }) => setErrorMessage(message));
-  }, []);
+  const loadMainContent = () => {
+    if (loggedIn) {
+      setIsPageLoading(true);
+      Promise.all([api.getUserInfo(), api.getInitialCards()])
+        .then(([user, cards]) => {
+          setCurrentUser(user);
+          setCards(cards);
+          setIsPageLoading(false);
+        })
+        .catch(({ message }) => {
+          setErrorMessage(message);
+        });
+    }
+  };
 
   useEffect(() => {
-    api
-      .getInitialCards()
-      .then((cards) => {
-        setCards(cards);
-      })
-      .catch(({ message }) => setErrorMessage(message));
-  }, []);
+    loadMainContent();
+  }, [loggedIn]);
 
   const closeByEsc = (e) => {
     if (e.key === 'Escape') {
@@ -243,7 +246,7 @@ function App() {
     <LoginStatusContext.Provider value={loggedIn}>
       <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
-          {/* <div className="loading-screen loading-screen_disabled"></div> */}
+          {isPageLoading && <div className="loading-screen" />}
           <Header onSignOut={onSignOut} userProfile={userProfile} />
           <main className="main">
             <Switch>
@@ -267,6 +270,7 @@ function App() {
               />
             </Switch>
           </main>
+          <Footer />
           <EditProfilePopup
             isOpen={isEditProfilePopupOpened}
             isLoading={isLoadingProfile}
