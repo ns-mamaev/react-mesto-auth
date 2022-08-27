@@ -14,6 +14,7 @@ import ImagePopup from './ImagePopup';
 import InfoTooltip from './InfoTooltip';
 import Login from './Login';
 import Main from './Main';
+import Popup from './Popup';
 import ProtectedRoute from './ProtectedRoute';
 import Register from './Register';
 import RemoveCardPopup from './RemoveCardPopup';
@@ -39,6 +40,7 @@ function App() {
   const [isRemoveCardPopupOpened, setIsRemoveCardPopupOpened] = useState(false);
   const [isLoadingRemoveCard, setIsLoadingRemoveCard] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isErrorMessagePopupOpen, setIsErrorMessagePopupOpen] = useState(false);
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState({});
   const [cardToDelete, setCardTodelete] = useState({});
@@ -57,13 +59,6 @@ function App() {
     setIsAddPlacePopupOpen(true);
   };
 
-  const handleClickOnPopup = (e) => {
-    if (e.target.classList.contains('popup') || e.target.classList.contains('popup__close-button')) {
-      //реализация закрытия по клику на оверлей либо по клику на крестик
-      closeAllPopups();
-    }
-  };
-
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpened(false);
@@ -76,11 +71,10 @@ function App() {
     }
   };
 
-  const handleCloseErrorMessage = (e) => {
-    if (e.target.classList.contains('popup') || e.target.classList.contains('popup__close-button')) {
-      //реализация закрытия по клику на оверлей либо по клику на крестик
-      setErrorMessage('');
-    }
+  //выделено в отдельную функцию, при закрытии сообщения, попап, в котором произошла ошибка - не закроется
+  const closeErrorMessage = () => {
+    setIsErrorMessagePopupOpen(false);
+    setTimeout(() => setErrorMessage(''), 500); //не очищаю сообщение пока показывается анимация закрытия попапа
   };
 
   const handleCardClick = (card) => {
@@ -95,7 +89,12 @@ function App() {
       .then((updatedCard) => {
         setCards((state) => state.map((oldCard) => (oldCard._id === card._id ? updatedCard : oldCard)));
       })
-      .catch(({ message }) => setErrorMessage(message));
+      .catch(showErrorPopup);
+  };
+
+  const showErrorPopup = ({ message }) => {
+    setErrorMessage(message);
+    setIsErrorMessagePopupOpen(true);
   };
 
   const handleCardDelete = (card) => {
@@ -112,7 +111,7 @@ function App() {
         closeAllPopups();
       })
       .finally(() => setIsLoadingProfile(false))
-      .catch(({ message }) => setErrorMessage(message));
+      .catch(showErrorPopup);
   };
 
   const handleUpdateAvatar = (avatarData) => {
@@ -124,7 +123,7 @@ function App() {
         closeAllPopups();
       })
       .finally(() => setIsLoadingAvatar(false))
-      .catch(({ message }) => setErrorMessage(message));
+      .catch(showErrorPopup);
   };
 
   const handleAddPlaceSubmit = (cardData) => {
@@ -136,7 +135,7 @@ function App() {
         closeAllPopups();
       })
       .finally(() => setIsLoadingAddPlace(false))
-      .catch(({ message }) => setErrorMessage(message));
+      .catch(showErrorPopup);
   };
 
   const handleConfirmRemove = () => {
@@ -148,7 +147,7 @@ function App() {
         closeAllPopups();
       })
       .finally(() => setIsLoadingRemoveCard(false))
-      .catch(({ message }) => setErrorMessage(message));
+      .catch(showErrorPopup);
   };
 
   const tokenCheck = async () => {
@@ -219,28 +218,13 @@ function App() {
           setCards(cards);
           setIsPageLoading(false);
         })
-        .catch(({ message }) => {
-          setErrorMessage(message);
-        });
+        .catch(showErrorPopup);
     }
   };
 
   useEffect(() => {
     loadMainContent();
   }, [loggedIn]);
-
-  const closeByEsc = (e) => {
-    if (e.key === 'Escape') {
-      closeAllPopups();
-    }
-  };
-
-  useEffect(() => {
-    if (isAddPlacePopupOpen || isEditAvatarPopupOpen || isEditProfilePopupOpened || isImagePopupOpened) {
-      document.addEventListener('keydown', closeByEsc);
-    }
-    return () => document.removeEventListener('keydown', closeByEsc);
-  }, [isAddPlacePopupOpen, isEditAvatarPopupOpen, isEditProfilePopupOpened, isImagePopupOpened]);
 
   return (
     <LoginStatusContext.Provider value={loggedIn}>
@@ -271,35 +255,45 @@ function App() {
             </Switch>
           </main>
           <Footer />
-          <EditProfilePopup
+          <Popup
+            component={EditProfilePopup}
             isOpen={isEditProfilePopupOpened}
             isLoading={isLoadingProfile}
-            onClose={handleClickOnPopup}
+            onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
           />
-          <EditAvatarPopup
+          <Popup
+            component={EditAvatarPopup}
             isOpen={isEditAvatarPopupOpen}
             isLoading={isLoadingAvatar}
-            onClose={handleClickOnPopup}
+            onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar}
           />
-          <AddPlacePopup
+          <Popup
+            component={AddPlacePopup}
             isOpen={isAddPlacePopupOpen}
             isLoading={isLoadingAddPlace}
-            onClose={handleClickOnPopup}
+            onClose={closeAllPopups}
             onAddPlace={handleAddPlaceSubmit}
           />
-          <ImagePopup isOpen={isImagePopupOpened} card={selectedCard} onClose={handleClickOnPopup} />
-          <RemoveCardPopup
+          <Popup component={ImagePopup} isOpen={isImagePopupOpened} card={selectedCard} onClose={closeAllPopups} />
+          <Popup
+            component={RemoveCardPopup}
             isOpen={isRemoveCardPopupOpened}
             isLoading={isLoadingRemoveCard}
-            onClose={handleClickOnPopup}
+            onClose={closeAllPopups}
             onConfirmRemove={handleConfirmRemove}
           />
-          <ErrorPopup errorMessage={errorMessage} onClose={handleCloseErrorMessage} />
-          <InfoTooltip
+          <Popup
+            component={ErrorPopup}
+            isOpen={isErrorMessagePopupOpen}
+            errorMessage={errorMessage}
+            onClose={closeErrorMessage}
+          />
+          <Popup
+            component={InfoTooltip}
             isOpen={isInfoTooltipOpened}
-            onClose={handleClickOnPopup}
+            onClose={closeAllPopups}
             message={infoTooltipMessage}
             isError={!loggedIn}
           />
