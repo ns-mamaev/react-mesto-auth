@@ -1,5 +1,4 @@
 import { CurrentUserContext } from 'contexts/CurrentUserContext';
-import { LoginStatusContext } from 'contexts/LoginStatusContext';
 import { useEffect, useState } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import api from 'utills/api';
@@ -227,79 +226,77 @@ function App() {
   }, [loggedIn]);
 
   return (
-    <LoginStatusContext.Provider value={loggedIn}>
-      <CurrentUserContext.Provider value={currentUser}>
-        <div className="page">
-          {isPageLoading && <div className="loading-screen" />}
-          <Header onSignOut={onSignOut} userProfile={userProfile} />
-          <main className="main">
-            <Switch>
-              <Route path="/sign-in">
-                <Login onLogin={onLogin} isLoading={isLoginLoading} />
-              </Route>
-              <Route path="/sign-up">
-                <Register onRegister={onRegister} isLoading={isRegisterLoading} />
-              </Route>
-              <ProtectedRoute
-                path="/"
-                loggedIn={loggedIn}
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onCardClick={handleCardClick}
-                onCardLike={handleCardLike}
-                onCardDelete={handleCardDelete}
-                cards={cards}
-                component={Main}
-              />
-            </Switch>
-          </main>
-          <Footer />
-          <Popup
-            component={EditProfilePopup}
-            isOpen={isEditProfilePopupOpened}
-            isLoading={isLoadingProfile}
-            onClose={closeAllPopups}
-            onUpdateUser={handleUpdateUser}
-          />
-          <Popup
-            component={EditAvatarPopup}
-            isOpen={isEditAvatarPopupOpen}
-            isLoading={isLoadingAvatar}
-            onClose={closeAllPopups}
-            onUpdateAvatar={handleUpdateAvatar}
-          />
-          <Popup
-            component={AddPlacePopup}
-            isOpen={isAddPlacePopupOpen}
-            isLoading={isLoadingAddPlace}
-            onClose={closeAllPopups}
-            onAddPlace={handleAddPlaceSubmit}
-          />
-          <Popup component={ImagePopup} isOpen={isImagePopupOpened} card={selectedCard} onClose={closeAllPopups} />
-          <Popup
-            component={RemoveCardPopup}
-            isOpen={isRemoveCardPopupOpened}
-            isLoading={isLoadingRemoveCard}
-            onClose={closeAllPopups}
-            onConfirmRemove={handleConfirmRemove}
-          />
-          <Popup
-            component={ErrorPopup}
-            isOpen={isErrorMessagePopupOpen}
-            errorMessage={errorMessage}
-            onClose={closeErrorMessage}
-          />
-          <Popup
-            component={InfoTooltip}
-            isOpen={isInfoTooltipOpened}
-            onClose={closeAllPopups}
-            message={infoTooltipMessage}
-            isError={!loggedIn}
-          />
-        </div>
-      </CurrentUserContext.Provider>
-    </LoginStatusContext.Provider>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page">
+        {isPageLoading && <div className="loading-screen" />}
+        <Header loggedIn={loggedIn} onSignOut={onSignOut} userProfile={userProfile} />
+        <main className="main">
+          <Switch>
+            <Route path="/sign-in">
+              <Login onLogin={onLogin} isLoading={isLoginLoading} />
+            </Route>
+            <Route path="/sign-up">
+              <Register onRegister={onRegister} isLoading={isRegisterLoading} />
+            </Route>
+            <ProtectedRoute
+              path="/"
+              loggedIn={loggedIn}
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={handleCardClick}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
+              cards={cards}
+              component={Main}
+            />
+          </Switch>
+        </main>
+        <Footer />
+        <Popup
+          component={EditProfilePopup}
+          isOpen={isEditProfilePopupOpened}
+          isLoading={isLoadingProfile}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
+        <Popup
+          component={EditAvatarPopup}
+          isOpen={isEditAvatarPopupOpen}
+          isLoading={isLoadingAvatar}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
+        <Popup
+          component={AddPlacePopup}
+          isOpen={isAddPlacePopupOpen}
+          isLoading={isLoadingAddPlace}
+          onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit}
+        />
+        <Popup component={ImagePopup} isOpen={isImagePopupOpened} card={selectedCard} onClose={closeAllPopups} />
+        <Popup
+          component={RemoveCardPopup}
+          isOpen={isRemoveCardPopupOpened}
+          isLoading={isLoadingRemoveCard}
+          onClose={closeAllPopups}
+          onConfirmRemove={handleConfirmRemove}
+        />
+        <Popup
+          component={ErrorPopup}
+          isOpen={isErrorMessagePopupOpen}
+          errorMessage={errorMessage}
+          onClose={closeErrorMessage}
+        />
+        <Popup
+          component={InfoTooltip}
+          isOpen={isInfoTooltipOpened}
+          onClose={closeAllPopups}
+          message={infoTooltipMessage}
+          isError={!loggedIn}
+        />
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 

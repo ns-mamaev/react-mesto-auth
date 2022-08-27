@@ -1,13 +1,11 @@
-import { LoginStatusContext } from 'contexts/LoginStatusContext';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import burgerImg from '../images/burger.svg';
 import closeImg from '../images/close-button.svg';
 import pageLogo from '../images/logo.svg';
 
-function Header({ onSignOut, userProfile }) {
+function Header({ loggedIn, onSignOut, userProfile }) {
   const { pathname } = useLocation();
-  const loggedIn = useContext(LoginStatusContext);
   const [menuOpened, setMenuOpened] = useState(false);
 
   const toggleMenu = () => {
