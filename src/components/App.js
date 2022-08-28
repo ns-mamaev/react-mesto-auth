@@ -13,6 +13,7 @@ import ImagePopup from './ImagePopup';
 import InfoTooltip from './InfoTooltip';
 import Login from './Login';
 import Main from './Main';
+import PageNotFound from './PageNotFound';
 import Popup from './Popup';
 import ProtectedRoute from './ProtectedRoute';
 import Register from './Register';
@@ -153,7 +154,7 @@ function App() {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const res = await auth.getContent('');
+        const res = await auth.getContent(token);
         if (res.data) {
           setLoggedIn(true);
           setUserProfile(res.data.email);
@@ -245,6 +246,7 @@ function App() {
               <Register onRegister={onRegister} isLoading={isRegisterLoading} />
             </Route>
             <ProtectedRoute
+              exact
               path="/"
               loggedIn={loggedIn}
               onEditProfile={handleEditProfileClick}
@@ -256,6 +258,9 @@ function App() {
               cards={cards}
               component={Main}
             />
+            <Route path="*">
+              <PageNotFound />
+            </Route>
           </Switch>
         </main>
         <Footer />

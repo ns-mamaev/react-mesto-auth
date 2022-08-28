@@ -65,3 +65,9 @@
 
 @import url(./blocks/popup/__tooltip-img/popup__tooltip-img.css);
 @import url(./blocks/popup/__tooltip-message/popup__tooltip-message.css);
+
+@import url(./blocks/page-not-found/page-not-found.css);
+@import url(./blocks/page-not-found/__inner/page-not-found__inner.css);
+@import url(./blocks/page-not-found/__title/page-not-found__title.css);
+@import url(./blocks/page-not-found/__subtitle/page-not-found__subtitle.css);
+@import url(./blocks/page-not-found/__link-home/page-not-found__link-home.css);

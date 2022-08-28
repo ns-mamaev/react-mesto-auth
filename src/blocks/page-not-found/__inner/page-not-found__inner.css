@@ -1,0 +1,6 @@
+.page-not-found__inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
