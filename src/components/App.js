@@ -152,11 +152,17 @@ function App() {
   const tokenCheck = async () => {
     const token = localStorage.getItem('token');
     if (token) {
-      const res = await auth.getContent(token);
-      if (res.data) {
-        setLoggedIn(true);
-        setUserProfile(res.data.email);
-        history.push('/');
+      try {
+        const res = await auth.getContent('');
+        if (res.data) {
+          setLoggedIn(true);
+          setUserProfile(res.data.email);
+          history.push('/');
+        }
+      } catch (err) {
+        setLoggedIn(false);
+        history.push('/sign-in');
+        showErrorPopup(err);
       }
     }
     setIsPageLoading(false);
@@ -294,6 +300,8 @@ function App() {
           onClose={closeAllPopups}
           message={infoTooltipMessage}
           isError={!loggedIn}
+          defaultErrorMessage="Что-то пошло не так! Попробуйте ещё раз."
+          successMessage="Вы успешно зарегистрировались!"
         />
       </div>
     </CurrentUserContext.Provider>

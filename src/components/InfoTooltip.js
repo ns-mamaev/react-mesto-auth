@@ -1,10 +1,8 @@
 import failureImg from '../images/fail.svg';
 import successImg from '../images/success.svg';
 
-function InfoTooltip({ isOpen, onClose, message, isError }) {
-  const infoMessage = isError
-    ? message || 'Что-то пошло не так! Попробуйте ещё раз.'
-    : 'Вы успешно зарегистрировались!';
+function InfoTooltip({ isOpen, onClose, message, isError, defaultErrorMessage, successMessage }) {
+  const infoMessage = isError ? message || defaultErrorMessage : successMessage;
   const imgStyle = { backgroundImage: `url(${isError ? failureImg : successImg})` };
 
   return (
